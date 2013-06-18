@@ -275,7 +275,7 @@ describe("'Hello' tests ...", function(){
 		waits(61000);
 		doHello({mcc:'215'});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"215"']);
-		checkMessage(true, ['[onMessageWebsocket]', '"status":201', '"uaid":_UAID', '"messageType":"hello"']);
+		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 
 	describe("Hello()  change mnc", function(){
@@ -287,7 +287,7 @@ describe("'Hello' tests ...", function(){
 		waits(61000);
 		doHello({mnc:'01'});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mnc":"01"']);
-		checkMessage(true, ['[onMessageWebsocket]', '"status":201', '"uaid":_UAID', '"messageType":"hello"']);
+		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 
 	describe("Hello()  change mcc and mnc", function(){
@@ -299,7 +299,7 @@ describe("'Hello' tests ...", function(){
 		waits(61000);
 		doHello({mcc:'234',mnc:'02'});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"234"','"mnc":"02"']);
-		checkMessage(true, ['[onMessageWebsocket]', '"status":201', '"uaid":_UAID', '"messageType":"hello"']);
+		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
 });
