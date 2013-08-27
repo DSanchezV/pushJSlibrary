@@ -447,25 +447,6 @@ describe("PUT tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 
-	describe("OWD-27171 - Notification with highest accepted version +1", function(){
-		resetSettings();
-		doHello();
-		doUpdateVersion({channels: '1234'},"9007199254740992");		
-		waits(1000);
-		checkMessage(true, ['404']);
-		doUnRegister(true);
-	});
-	
-	describe("OWD-27172 - Notification with highest accepted version +1 length", function(){
-		resetSettings();
-		doHello();
-		doUpdateVersion({channels: '1234'},"90071992547409921");		
-		waits(1000);
-		checkMessage(true, ['404']);
-		doUnRegister(true);
-	});
-
-
 });
 	
 
