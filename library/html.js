@@ -1,6 +1,10 @@
     function $(id) {
       return document.getElementById(id);
     };
+	
+	function close_connection() {
+		var c = navigator.pushNotification.closeWebsocket();
+	};
 
     function register(_IN,callback) {
     var c = navigator.pushNotification.requestRemotePermission(_IN);

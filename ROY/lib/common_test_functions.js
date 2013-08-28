@@ -95,7 +95,7 @@ function checkLog(p_desc, p_str, p_bool){
 		if (_DEBUG) console.log("XXXXX checkLog: calling runLogCheck() ...");
 		result = runLogCheck(p_str);		
 		return result;
-	}, "console log to contain this array", 2000);
+	}, "console log to contain this array", 20000);
 	runs(function(){
 		if (p_bool){
 			expect(result).toBeTruthy();

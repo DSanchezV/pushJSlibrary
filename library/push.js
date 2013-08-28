@@ -131,7 +131,7 @@ _Push.prototype = {
 
     this.unregisterWA(_IN);
   },
-
+  
   /**
    * Setup PUSH interface
    * data is a JSON object with these attributes:
@@ -490,6 +490,19 @@ _Push.prototype = {
     this.server.ws.connection.onclose = this.onCloseWebsocket.bind(this);
     this.server.ws.connection.onerror = this.onErrorWebsocket.bind(this);
     this.server.ws.connection.onmessage = this.onMessageWebsocket.bind(this);
+  },
+  
+  /**
+   * Close Websocket connection
+   */
+  closeWebsocket: function() {
+    if (!this.server.ws.ready)
+      return;
+  
+    this.debug('[closeWebsocket] Closing websocket to ++++: ' + this.server.ad_ws);
+	if (this.server.ws.connection) {
+		this.server.ws.connection.close();
+	}
   },
 
   /**
