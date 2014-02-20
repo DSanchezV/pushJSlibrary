@@ -62,4 +62,4 @@ document.write('<script type="text/javascript" src="../library/push.js"></script
 // Test cases.
 //
 document.write('<script type="text/javascript" src="./lib/common_test_functions.js"></script>');
-document.write('<script type="text/javascript" src="./TestCases.js"></script>');
+document.write('<script type="text/javascript" src="./TestCases2.js"></script>');

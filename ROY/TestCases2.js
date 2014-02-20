@@ -4,7 +4,7 @@
 //
 describe("'Register' as first message in the connection test ...", function(){
 
-	describe("OWD-25987 - Register_fake()", function(){
+	describe("OWD-29732 - Register_fake()", function(){
 		resetSettings();
 		doRegister_fake({channels:'1234'});
 		checkMessage(true, ['[sendWS]', '"channelID":"1234"', '"messageType":"register"']);
@@ -15,7 +15,7 @@ describe("'Register' as first message in the connection test ...", function(){
 
 describe("'Register' tests ...", function(){
 
-	describe("OWD-23785 and OWD-23786 - Register()", function(){
+	describe("OWD-29725 and OWD-29724 - Register()", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:'1234'});
@@ -25,7 +25,7 @@ describe("'Register' tests ...", function(){
 		doUnRegister(true, {channels:'1234'});
 	});
 	
-	describe("OWD-23783 -Register() null", function(){
+	describe("OWD-29727 -Register() null", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels: null});	
@@ -35,7 +35,7 @@ describe("'Register' tests ...", function(){
 		//doUnRegister(true, {channels:'1234'});
 	});
 	
-	describe("OWD-23784 - Register() invalid", function(){
+	describe("OWD-29726 - Register() invalid", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels: ''});
@@ -44,7 +44,7 @@ describe("'Register' tests ...", function(){
 		checkMessage(true, ['[onRegisterWAMessage]', '"messageType":"register"', '"status":457', '"reason":"Not valid channelID sent"']);
 	});
 
-	describe("OWD-25094 - Register() objectId", function(){
+	describe("OWD-29723 - Register() objectId", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:1234});
@@ -53,7 +53,7 @@ describe("'Register' tests ...", function(){
 		checkMessage(true, ['[onRegisterWAMessage]', '"messageType":"register"', '"status":457', '"reason":"Not valid channelID sent"']);
 	});
 	
-	describe("OWD-23786 - Register() several channels", function(){
+	describe("OWD-29724 - Register() several channels", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:'1234'});
@@ -68,7 +68,7 @@ describe("'Register' tests ...", function(){
 
 describe("'Un-register' tests ...", function(){
 
-	describe("OWD-23790 and OWD-23791 - Unregister()", function(){
+	describe("OWD-29720 and OWD-29719 - Unregister()", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:'1234'});
@@ -78,7 +78,7 @@ describe("'Un-register' tests ...", function(){
 		doUnRegister(true, {channels:'1234'});
 	});
 	
-	describe("OWD-23788 - Unregister() null", function(){
+	describe("OWD-29722 - Unregister() null", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:'1234'});
@@ -87,7 +87,7 @@ describe("'Un-register' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":457', '"reason":"Not valid channelID sent"', '"messageType":"unregister"']);
 	});
 	
-	describe("OWD-23789 - Unregister() invalid", function(){
+	describe("OWD-29721 - Unregister() invalid", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:'1234'});
@@ -96,7 +96,7 @@ describe("'Un-register' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":457', '"reason":"Not valid channelID sent"', '"messageType":"unregister"']);
 	});
 	
-	describe("OWD-25095 - Unregister() objectId", function(){
+	describe("OWD-29717 - Unregister() objectId", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		doRegister({channels:'1234'});
@@ -110,63 +110,71 @@ describe("'Un-register' tests ...", function(){
 
 describe("'Hello' tests ...", function(){
 
-	describe("OWD-23780 - Hello()", function(){
+	describe("OWD-29707 - Hello() with wakeup", function(){
+		resetSettings();
+		setTrue("wakeup_enabled");
+		doHello(); // First one is always a 'hello'.
+		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"214"','"mnc":"007"']);
+		checkMessage(true, ['[onMessageWebsocket]', '"status":201', '"uaid":_UAID', '"messageType":"hello"']);
+	});
+
+	describe("OWD-29708 - Hello()", function(){
 		resetSettings();
 		doHello(); // First one is always a 'hello'.
 		checkMessage(true, ['[sendWS]', '"uaid":_UAID', '"channelIDs":[]', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23766 - Hello() null uaid", function(){
+	describe("OWD-29736 - Hello() null uaid", function(){
 		resetSettings();
 		doHello({uaid:null});
 		checkMessage(true, ['[sendWS]', '"uaid":null', '"channelIDs":[]', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23767 - Hello() invalid uaid", function(){
+	describe("OWD-29735 - Hello() invalid uaid", function(){
 		resetSettings();
 		doHello({uaid:''});
 		checkMessage(true, ['[sendWS]', '"uaid":""', '"channelIDs":[]', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23769 - Hello() no channel ID", function(){
+	describe("OWD-29703 - Hello() no channel ID", function(){
 		resetSettings();
 		doHello({channels:null});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":null', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 
-	describe("OWD-25093 - Hello() empty channel ID array", function(){
+	describe("OWD-29700 - Hello() empty channel ID array", function(){
 		resetSettings();
 		doHello({channels:[]});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23770 - Hello() one channel ID", function(){
+	describe("OWD-29702 - Hello() one channel ID", function(){
 		resetSettings();
 		doHello({channels:['1234']});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":["1234"]', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23771 - Hello() several channel IDs", function(){
+	describe("OWD-29701 - Hello() several channel IDs", function(){
 		resetSettings();
 		doHello({channels:['1234','4321']});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":["1234","4321"]', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 
-	describe("OWD-25981 - Hello() objectId as channel ID", function(){
+	describe("OWD-29699 - Hello() objectId as channel ID", function(){
 		resetSettings();
 		doHello({channels: 1234});
 		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":1234', '"messageType":"hello"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23772 - Hello() invalid IP, valid PORT", function(){
+	describe("OWD-29716 - Hello() invalid IP, valid PORT", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello({ip:'256.256.256.256'});
@@ -174,7 +182,7 @@ describe("'Hello' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23773 - Hello() valid IP, invalid PORT", function(){
+	describe("OWD-29715 - Hello() valid IP, invalid PORT", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello({port:80000});
@@ -182,7 +190,7 @@ describe("'Hello' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23775 and OWD-23781 - Hello() valid IP, valid PORT", function(){
+	describe("OWD-29713 - Hello() valid IP, valid PORT", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello();
@@ -190,7 +198,7 @@ describe("'Hello' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":201', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23774 - Hello() invalid IP, invalid PORT", function(){
+	describe("OWD-29714 - Hello() invalid IP, invalid PORT", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello({ip:'256.256.256.256',port:80000});
@@ -198,15 +206,15 @@ describe("'Hello' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23777 - Hello() invalid mcc, valid mnc", function(){
+	describe("OWD-29711 - Hello() invalid mcc, valid mnc", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello({mcc:'hola'});
-		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"hola"','"mnc":"07"']);
+		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"hola"','"mnc":"007"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23776 - Hello()  valid mcc, invalid mnc", function(){
+	describe("OWD-29712 - Hello()  valid mcc, invalid mnc", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello({mnc:'hola'});
@@ -214,15 +222,15 @@ describe("'Hello' tests ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]', '"status":200', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23779 - Hello()  valid mcc, valid mnc", function(){
+	describe("OWD-29709 - Hello()  valid mcc, valid mnc", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello();
-		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"214"','"mnc":"07"']);
+		checkMessage(true, ['[sendWS]', '"uaid":', '"channelIDs":[]', '"messageType":"hello"','"wakeup_hostport"','"mcc":"214"','"mnc":"007"']);
 		checkMessage(true, ['[onMessageWebsocket]', '"status":201', '"uaid":_UAID', '"messageType":"hello"']);
 	});
 	
-	describe("OWD-23778 - Hello()  invalid mcc, invalid mnc", function(){
+	describe("OWD-29710 - Hello()  invalid mcc, invalid mnc", function(){
 		resetSettings();
 		setTrue("wakeup_enabled");
 		doHello({mcc:'hola',mnc:'hola'});
@@ -307,7 +315,7 @@ describe("'Hello' tests ...", function(){
 
 describe("Keepalive tests (these pause for > 1 minute) ...", function(){
 
-	describe("OWD-23812 - Set {} to true", function(){
+	describe("OWD-29704 - Set {} to true", function(){
 		resetSettings();
 		setTrue("ping");
 		doHello();
@@ -317,7 +325,7 @@ describe("Keepalive tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 	
-	describe("OWD-23809 - Set {'hello'} to true", function(){
+	describe("OWD-29706 - Set {'hello'} to true", function(){
 		resetSettings();
 		setTrue("pong");
 		doHello();
@@ -326,7 +334,7 @@ describe("Keepalive tests (these pause for > 1 minute) ...", function(){
 		checkMessage(true, ['[onMessageWebsocket]','"status":450','"reason":"Data received is not a valid JSON package"']);
 	});
 
-	describe("OWD-23810 - Set {'verylongmessage'} to true", function(){
+	describe("OWD-29705 - Set {'verylongmessage'} to true", function(){
 		resetSettings();
 		setTrue("other");
 		doHello();
@@ -339,7 +347,7 @@ describe("Keepalive tests (these pause for > 1 minute) ...", function(){
 
 describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 
-	describe("OWD-23804 - Set 'ack' to true", function(){
+	describe("OWD-29783 - Set 'ack' to true", function(){
 		resetSettings();
 		setTrue("ack");
 		doHello();
@@ -349,7 +357,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 	
-	describe("OWD-23799 - Set 'ack_null_updates' to true", function(){
+	describe("OWD-29788 - Set 'ack_null_updates' to true", function(){
 		resetSettings();
 		setTrue("ack_null_updates");
 		doHello();
@@ -359,7 +367,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 	
-	describe("OWD-23800 - Set 'ack_invalid_channelID' to true", function(){
+	describe("OWD-29787 - Set 'ack_invalid_channelID' to true", function(){
 		resetSettings();
 		setTrue("ack_invalid_channelID");
 		doHello();
@@ -369,7 +377,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 	
-	describe("OWD-23801 - Set 'ack_null_channelID' to true", function(){
+	describe("OWD-29786 - Set 'ack_null_channelID' to true", function(){
 		resetSettings();
 		setTrue("ack_null_channelID");
 		doHello();
@@ -379,7 +387,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 	
-	describe("OWD-23802 - Set 'ack_null_version' to true", function(){
+	describe("OWD-29785 - Set 'ack_null_version' to true", function(){
 		resetSettings();
 		setTrue("ack_null_version");
 		doHello();
@@ -389,7 +397,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 	
-	describe("OWD-23803 - Set 'ack_invalid_version' to true", function(){
+	describe("OWD-29784 - Set 'ack_invalid_version' to true", function(){
 		resetSettings();
 		setTrue("ack_invalid_version");
 		doHello();
@@ -399,7 +407,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 
-	describe("OWD-25102 - Set 'no_ack' to true", function(){
+	describe("OWD-29774 - Set 'no_ack' to true", function(){
 		resetSettings();
 		setTrue("no_ack");
 		doHello();
@@ -411,7 +419,7 @@ describe("'ACK' tests (these pause for > 1 minute) ...", function(){
 });
 
 describe("PUT tests (these pause for > 1 minute) ...", function(){
-	describe("OWD-23822 - Notification with correct version", function(){
+	describe("OWD-29778 - Notification with correct version", function(){
 		resetSettings();
 		doHello();
 		doUpdateVersion({channels: '1234'},"1");		
@@ -420,7 +428,7 @@ describe("PUT tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 
-	describe("OWD-23819 - Notification with no version", function(){
+	describe("OWD-29780 - Notification with no version", function(){
 		resetSettings();
 		doHello();
 		doUpdateVersion({channels: '1234'});		
@@ -429,7 +437,7 @@ describe("PUT tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 
-	describe("OWD-23821 - Notification with incorrect version", function(){
+	describe("OWD-29779 - Notification with incorrect version", function(){
 		resetSettings();
 		doHello();
 		doUpdateVersion({channels: '1234'},"hello");		
@@ -438,7 +446,7 @@ describe("PUT tests (these pause for > 1 minute) ...", function(){
 		doUnRegister(true);
 	});
 
-	describe("OWD-27170 - Notification with highest accepted version", function(){
+	describe("OWD-29773 - Notification with highest accepted version", function(){
 		resetSettings();
 		doHello();
 		doUpdateVersion({channels: '1234'},"9007199254740991");		
